@@ -11,17 +11,47 @@
 	//============================================================
 
   //global variables go here
+    var Mermaid;
+    var Mermaid2;
+    var Sea;
+    var Lobster;
+    var Ursula;
+    var Ursula2;
+    var Princess;
+    var Prince;
+
+    var direction= "right";
+    var moveX = 0;
+	var moveY = 600;
+	var speed = 5;
+
+	var UrsulaX = 0;
+	var UrsulaY = 0;
+
+	var showPrincess = false;
 
   //only use this function if you need to load images
   //remember you will need to use Anvil to run your local server
-	// function preload(){
+	function preload(){
 
-	// }
+		Mermaid = loadImage("../assets/Mermaid.png");
+		Mermaid2 = loadImage("../assets/Mermaid2.png");
+		Sea = loadImage("../assets/Sea.jpg");
+		Lobster = loadImage("../assets/Lobster.png");
+		Ursula = loadImage("../assets/ursula.png");
+		Ursula2 = loadImage("../assets/ursula2.png");
+		Princess = loadImage("../assets/princess.png");
+		Prince = loadImage("../assets/Prince.png");
+
+	}
 
 
 	//Set up your canvas
 	function setup() {
 		createCanvas(windowWidth, windowHeight);
+		
+		
+		
 
 	}
 
@@ -29,12 +59,117 @@
 	//Draw your story
 	function draw() {
 
+		
+
+		if (direction == "up"){
+			moveY -=speed;
+		} else if (direction == "down"){
+			moveY+=speed;
+		} else if (direction == "left"){
+			moveX-=speed;
+		} else if (direction == "right"){
+			moveX+=speed;
+		}
+
+		if(moveX < 0){
+			moveX = windowWidth;
+		} else if(moveX > windowWidth){
+			moveX = 0;
+		} else if(moveY < 0){
+			moveY = windowHeight;
+		} else if (moveY > windowHeight){
+			moveY = 0;
+		}
+
+		clear();
+		background(Sea);
+
+		//draw the Lobster
+		image(Lobster, moveX, moveY, Lobster.width/10, Lobster.height/10);
+
+		//draw Mermaid
+		if (showPrincess === true){
+			image(Princess, 300, 150, Princess.width/1.8, Princess.height/1.8);
+			image(Prince, 700, 150, Prince.width/1.8, Prince.height/1.8);
+		}else if (showPrincess === false){
+
+		if(mouseIsPressed){
+
+			if(mouseX < windowWidth/2){
+			image(Mermaid, mouseX-140, mouseY-180, Mermaid.width/2.5, Mermaid.height/2.5);
+			stroke("yellow");
+            line(mouseX-20,mouseY-100,mouseX+100,mouseY+50);
+		}else {
+			image(Mermaid2, mouseX-100, mouseY-180, Mermaid2.width/2.5, Mermaid2.height/2.5);
+			stroke("yellow");
+            line(mouseX-30,mouseY-100,mouseX-180,mouseY+50);
+		}
+
+
+		}else{
+		
+		if(mouseX < windowWidth/2){
+			image(Mermaid, mouseX-140, mouseY-180, Mermaid.width/2.5, Mermaid.height/2.5);
+			image(Ursula, UrsulaX, UrsulaY, Ursula.width/3, Ursula.height/3);
+		}else {
+			image(Mermaid2, mouseX-100, mouseY-180, Mermaid2.width/2.5, Mermaid2.height/2.5);
+			image(Ursula2, UrsulaX-380, UrsulaY, Ursula2.width/3, Ursula2.height/3);
+		}
+	
+	}
+}
+
+		//draw Ursula
+		if (UrsulaX < mouseX){
+			UrsulaX +=speed;
+		}
+
+		if (UrsulaX > mouseX){
+			UrsulaX-=speed;
+		}
+
+		if (UrsulaY < mouseY){
+			UrsulaY+=speed;
+		}
+
+		if (UrsulaY > mouseY){
+			UrsulaY-=speed;
+		}
+
+		fill("hotPink");
+		text("Use ARROW KEYS to control Sebastion and SHIFT to change Arial's Clothes. Press mouse to defeat Ursula.",20,20);
+		
+
+
+
 	}
 
 	//add your functions
+	function keyPressed() {
+
+	//check the arrow keys for changes in the direction
+ 	 if (keyCode === UP_ARROW) {
+	    direction = "up";
+	  } else if (keyCode === DOWN_ARROW) {
+	    direction = "down";
+	  } else if (keyCode === LEFT_ARROW){
+	  	direction = "left";
+	  } else if (keyCode === RIGHT_ARROW){
+	  	direction = "right";
+	  }
+
+	//Princess  
+	 if (keyCode === SHIFT) {
+	   if(showPrincess === false){
+	   	showPrincess = true;
+     }else if (showPrincess === true){
+     	showPrincess = false;
+     }
+
+ 	}
 
 
-
+	}
 
 	</script>
 </head>
